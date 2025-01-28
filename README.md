@@ -6,14 +6,14 @@
 
 - Conexão
     - User = SA
-    - Password = Grupo#31
-    - Database = HealthAndMed
+    - Password = Teste123!
+    - Database = AgendaMedica
     - Server = localhost
 
 - Connection String
 ```
 "ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;   Database=HealthAndMed;User Id=SA;Password=Grupo#31;TrustServerCertificate=True"
+  "DefaultConnection": "Server=localhost;   Database=AgendaMedica;User Id=SA;Password=Teste123!;TrustServerCertificate=True"
 }
 ```
 
