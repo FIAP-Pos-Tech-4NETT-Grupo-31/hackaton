@@ -1,0 +1,33 @@
+networks:
+  network_contatos:
+
+
+services:
+  
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+      MSSQL_SA_PASSWORD: "Grupo#31"
+      ACCEPT_EULA: 1
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    networks:
+      - network_contatos
+
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./scripts:/scripts
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        sleep 20s
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P Grupo#31 -d master -i /scripts/generate-database.sql
+    networks:
+      - network_contatos
+
+  
