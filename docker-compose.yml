@@ -1,0 +1,37 @@
+version: '3.9'
+
+services: 
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+      MSSQL_SA_PASSWORD: "Teste123!"
+      ACCEPT_EULA: 1
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    networks:
+      - hackaton_network
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./scripts:/scripts
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        sleep 40s
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P Teste123! -d master -i ./scripts/generate-database.sql
+    networks:
+      - hackaton_network
+
+volumes:
+  sqlserver_data:
+    driver: local
+
+networks:
+  hackaton_network:
