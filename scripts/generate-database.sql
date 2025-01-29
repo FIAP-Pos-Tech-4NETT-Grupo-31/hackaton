@@ -40,6 +40,7 @@ CREATE TABLE [dbo].[Paciente] (
     [Telefone]     NVARCHAR (20)  NOT NULL,
     [Email]        NVARCHAR (200) NOT NULL,
     [DataCriacao]  DATETIME       NOT NULL DEFAULT GETDATE(),
+    [Senha]        NVARCHAR(200)  NOT NULL,
     CONSTRAINT [PK_Paciente] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 GO
@@ -85,20 +86,20 @@ VALUES
 (N'Roberto Costa', N'Pediatra', N'23456', N'(61) 99123-4567', N'roberto@exemplo.com');
 
 -- Pacientes
-INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email]) 
+INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email], [Senha]) 
 VALUES 
-(N'Maria Oliveira', '12345678901', '1985-02-14', N'(11) 99876-5432', N'maria@exemplo.com');
+(N'Maria Oliveira', '12345678901', '1985-02-14', N'(11) 99876-5432', N'maria@exemplo.com', 'maria123');
 
-INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email]) 
+INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email], [Senha]) 
 VALUES 
-(N'Lucas Pereira', '98765432100', '1992-11-20', N'(21) 98765-8765', N'lucas@exemplo.com');
+(N'Lucas Pereira', '98765432100', '1992-11-20', N'(21) 98765-8765', N'lucas@exemplo.com', 'lucas123');
 
-INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email]) 
+INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email], [Senha]) 
 VALUES 
-(N'Ana Martins', '45678912300', '1980-06-10', N'(41) 98123-4567', N'ana@exemplo.com');
+(N'Ana Martins', '45678912300', '1980-06-10', N'(41) 98123-4567', N'ana@exemplo.com', 'ana123');
 
-INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email]) 
+INSERT INTO [dbo].[Paciente] ([Nome], [CPF], [DataNascimento], [Telefone], [Email], [Senha]) 
 VALUES 
-(N'Ricardo Almeida', '32165498700', '1978-01-15', N'(51) 93456-7890', N'ricardo@exemplo.com');
+(N'Ricardo Almeida', '32165498700', '1978-01-15', N'(51) 93456-7890', N'ricardo@exemplo.com', 'ricardo123');
 
 GO
