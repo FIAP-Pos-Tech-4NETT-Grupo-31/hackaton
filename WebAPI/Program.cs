@@ -5,6 +5,7 @@ using Infrastructure.Context;
 using YourProject.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -15,6 +16,8 @@ builder.Services.AddSingleton(new DapperDbContext(connectionString));
 
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
+builder.Services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
+builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 

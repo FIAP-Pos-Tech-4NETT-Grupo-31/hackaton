@@ -10,14 +10,28 @@ namespace WebAPI.Controllers
     public class PacienteController : ControllerBase
     {
         private readonly IPacienteService _pacienteService;
-        public PacienteController(IPacienteService pacienteService) {
+        private readonly IAuthenticationService _authenticationService;
+        public PacienteController(IPacienteService pacienteService, IAuthenticationService authenticationService)
+        {
             _pacienteService = pacienteService;
+            _authenticationService = authenticationService;
         }
         [HttpGet]
         public IEnumerable<Paciente> Get()
         {
             var pacientes = _pacienteService.GetPaciente();
             return pacientes;
+        }
+        
+        [HttpPost]
+        [Route("authentication")]
+        public IActionResult AutenthicatePaciente([FromBody] CredentialRequest credencial)
+        {
+            var token = _authenticationService.GetPacienteToken(credencial.Email, credencial.Senha);
+
+            if (!string.IsNullOrWhiteSpace(token)) return Ok(token);
+            
+            return Unauthorized();
         }
     }
 }
