@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Context;
 using System.Data;
+using System.Data.Common;
 
 namespace YourProject.Infrastructure.Repositories
 {
@@ -14,7 +15,7 @@ namespace YourProject.Infrastructure.Repositories
         public PacienteRepository(DapperDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
+        }        
 
         public IEnumerable<Paciente> GetAll()
         {
@@ -24,6 +25,18 @@ namespace YourProject.Infrastructure.Repositories
                 var result = connection.Query<Paciente>(query);
                 return result;
             }
+        }
+
+        public async Task<Paciente> AddPaciente(Paciente paciente)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = @"INSERT INTO Paciente (Nome, Email, Telefone, CPF, Senha, DataNascimento) 
+                                 VALUES (@Nome, @Email, @Telefone, @CPF, @Senha, @DataNascimento)";
+                var id = await connection.ExecuteAsync(query, paciente);
+                paciente.Id = id;
+                return paciente;
+            }    
         }
     }
 }

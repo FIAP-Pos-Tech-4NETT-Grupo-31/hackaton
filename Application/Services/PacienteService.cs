@@ -12,10 +12,16 @@ namespace Application.Services
         {
             _pacienteRepository = pacienteRepository;
         }
+       
         public IEnumerable<Paciente> GetPaciente()
         {
             var result = _pacienteRepository.GetAll();
             return result;
+        }
+
+        public async Task<Paciente> AddPaciente(Paciente paciente)
+        {
+            return await _pacienteRepository.AddPaciente(paciente);
         }
     }
 }

@@ -10,5 +10,7 @@ namespace Application.Interfaces
     public interface IPacienteService
     {
         public IEnumerable<Paciente> GetPaciente();
+
+        public Task<Paciente> AddPaciente(Paciente paciente);
     }
 }

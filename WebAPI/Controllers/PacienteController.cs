@@ -22,7 +22,23 @@ namespace WebAPI.Controllers
             var pacientes = _pacienteService.GetPaciente();
             return pacientes;
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] PacienteRequest pacienteRequest)
+        {
+            var pacienteDTO = new Paciente()
+            {
+                Email = pacienteRequest.Email,
+                Senha = pacienteRequest.Senha,
+                CPF = pacienteRequest.CPF,
+                Nome = pacienteRequest.Nome,
+                DataNascimento = pacienteRequest.DataNascimento,
+                Telefone = pacienteRequest.Telefone
+            };
+            var novoPaciente = await _pacienteService.AddPaciente(pacienteDTO);
+            return Created(string.Empty, novoPaciente);
+        }
+
         [HttpPost]
         [Route("authentication")]
         public IActionResult AutenthicatePaciente([FromBody] CredentialRequest credencial)
