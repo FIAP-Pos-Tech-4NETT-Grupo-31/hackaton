@@ -31,7 +31,7 @@ public class PacienteServiceTests
             .Returns(_mockListaDePacientes);
 
         // Act
-        var result = pacienteService.GetPaciente();
+        var result = pacienteService.GetAllPacientes();
 
         // Assert
         Assert.IsNotNull(result);
