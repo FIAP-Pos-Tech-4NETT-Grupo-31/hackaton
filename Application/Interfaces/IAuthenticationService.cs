@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Enum;
 
 namespace Application.Interfaces
 {
     public interface IAuthenticationService
     {
-        public string GetPacienteToken(string email, string senha);
+        public string GetToken(string email, string senha, Roles role);
     }
 }

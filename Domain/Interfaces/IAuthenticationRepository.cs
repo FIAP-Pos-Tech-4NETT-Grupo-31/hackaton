@@ -1,14 +1,10 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Enum;
 
 namespace Domain.Interfaces
 {
     public interface IAuthenticationRepository
     {
-        public Credentials? GetPacienteCredentials(string email, string senha);
+        public Credentials? GetCredentials(string email, string senha, Roles role);
     }
 }

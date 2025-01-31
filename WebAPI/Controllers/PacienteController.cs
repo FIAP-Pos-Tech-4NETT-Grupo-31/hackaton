@@ -1,7 +1,9 @@
 using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models.Requests;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -10,19 +12,29 @@ namespace WebAPI.Controllers
     public class PacienteController : ControllerBase
     {
         private readonly IPacienteService _pacienteService;
-        private readonly IAuthenticationService _authenticationService;
-        public PacienteController(IPacienteService pacienteService, IAuthenticationService authenticationService)
+        public PacienteController(IPacienteService pacienteService)
         {
             _pacienteService = pacienteService;
-            _authenticationService = authenticationService;
         }
+        [Authorize]
         [HttpGet]
-        public IEnumerable<Paciente> Get()
+        [Route("get_all")]
+        public IEnumerable<Paciente> GetAll()
         {
-            var pacientes = _pacienteService.GetPaciente();
+            var pacientes = _pacienteService.GetAllPacientes();
             return pacientes;
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("get_by_id")]
+        public Paciente? GetPacienteById(int idPaciente)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var paciente = _pacienteService.GetPacienteById(idPaciente);
+            return paciente;
+        }
+                
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PacienteRequest pacienteRequest)
         {
@@ -39,15 +51,13 @@ namespace WebAPI.Controllers
             return Created(string.Empty, novoPaciente);
         }
 
-        [HttpPost]
-        [Route("authentication")]
-        public IActionResult AutenthicatePaciente([FromBody] CredentialRequest credencial)
-        {
-            var token = _authenticationService.GetPacienteToken(credencial.Email, credencial.Senha);
-
-            if (!string.IsNullOrWhiteSpace(token)) return Ok(token);
-            
-            return Unauthorized();
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Put([FromBody] int idPaciente)
+        {            
+            var resultado = await _pacienteService.DeletePaciente(idPaciente);
+            return Ok();
         }
+
     }
 }

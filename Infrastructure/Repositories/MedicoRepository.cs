@@ -6,7 +6,7 @@ using Domain.Interfaces;
 using Infrastructure.Querys;
 using System.Data;
 
-namespace Infrastructure.Repositories
+namespace hackaton.Infrastructure.Repositories
 {
     public class MedicoRepository : IMedicoRepository
     {
