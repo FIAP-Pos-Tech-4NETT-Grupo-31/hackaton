@@ -1,11 +1,12 @@
 ﻿
 using Dapper;
 using Domain.Entities;
+using Domain.Enum;
 using Domain.Interfaces;
 using Infrastructure.Context;
 using System.Data;
 
-namespace YourProject.Infrastructure.Repositories
+namespace hackaton.Infrastructure.Repositories
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
@@ -16,14 +17,16 @@ namespace YourProject.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public Credentials? GetPacienteCredentials(string email, string senha) {
+        public Credentials? GetCredentials(string email, string senha, Roles role)
+        {
             using (IDbConnection connection = _dbContext.CreateConnection())
             {
-                string query = "SELECT Email, Senha FROM Paciente WHERE Email = @Email AND Senha = @Senha";
+                string table = role == Roles.Paciente ? "Paciente" : "Medico";
+                string query = $"SELECT Email, Senha FROM {table} WHERE Email = @Email AND Senha = @Senha";
                 var parametros = new { Email = email, Senha = senha };
                 var result = connection.Query<Credentials>(query, parametros);
                 return result.FirstOrDefault();
             }
-        }
+        }       
     }
 }

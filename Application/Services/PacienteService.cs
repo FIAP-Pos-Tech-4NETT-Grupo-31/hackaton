@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
 using Domain.Interfaces;
+using System.Text;
 
 namespace Application.Services
 {
@@ -13,15 +14,27 @@ namespace Application.Services
             _pacienteRepository = pacienteRepository;
         }
        
-        public IEnumerable<Paciente> GetPaciente()
+        public IEnumerable<Paciente> GetAllPacientes()
         {
             var result = _pacienteRepository.GetAll();
             return result;
         }
 
+        public Paciente? GetPacienteById(int idPaciente)
+        {
+            var result = _pacienteRepository.GetPacienteById(idPaciente);
+            return result;
+        }
+
         public async Task<Paciente> AddPaciente(Paciente paciente)
         {
+            paciente.Senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(paciente.Senha));
             return await _pacienteRepository.AddPaciente(paciente);
+        }
+
+        public async Task<int> DeletePaciente(int idPaciente)
+        {
+            return await _pacienteRepository.DeletePaciente(idPaciente);
         }
     }
 }

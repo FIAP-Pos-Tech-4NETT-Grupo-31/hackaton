@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Domain.Enum;
 
 
 namespace Application.Services
@@ -19,27 +20,32 @@ namespace Application.Services
             _authenticationRepository= authenticationRepository;
         }
 
-        public string GetPacienteToken(string email, string senha)
+        public string GetToken(string email, string senha, Roles role)
         {
-            var paciente = _authenticationRepository.GetPacienteCredentials(email, senha);
-
-            if (paciente == null) return string.Empty;
+            var senhaBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));
+            var credenciais = _authenticationRepository.GetCredentials(email, senhaBase64, role);
+            if (credenciais == null) return string.Empty;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var chaveCriptografia = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("SecretJWT"));
+            var chaveSecreta = _configuration.GetValue<string>("SecretJWT");
 
-            var tokenPropriedades = new SecurityTokenDescriptor()
+            if (string.IsNullOrEmpty(chaveSecreta))
+                throw new InvalidOperationException("Chave JWT não configurada corretamente.");
+
+            var chaveCriptografia = Encoding.ASCII.GetBytes(chaveSecreta);
+
+            var claims = new List<Claim>
             {
-                Subject = new ClaimsIdentity(new Claim[]
-               {
-                    new Claim(ClaimTypes.Email, email),
-               }),
+                new Claim(ClaimTypes.Email, email),
+            };
 
+            var tokenPropriedades = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(8),
-
                 SigningCredentials = new SigningCredentials(
-                   new SymmetricSecurityKey(chaveCriptografia),
-                   SecurityAlgorithms.HmacSha256Signature)
+                    new SymmetricSecurityKey(chaveCriptografia),
+                    SecurityAlgorithms.HmacSha256)
             };
 
             var token = tokenHandler.CreateToken(tokenPropriedades);

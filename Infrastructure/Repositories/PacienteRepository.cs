@@ -6,7 +6,7 @@ using Infrastructure.Context;
 using System.Data;
 using System.Data.Common;
 
-namespace YourProject.Infrastructure.Repositories
+namespace hackaton.Infrastructure.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
@@ -27,6 +27,16 @@ namespace YourProject.Infrastructure.Repositories
             }
         }
 
+        public Paciente? GetPacienteById(int idPaciente)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = "SELECT Id, Nome, Email, CPF FROM Paciente WHERE Id = @Id";
+                var result = connection.Query<Paciente>(query, new { Id = idPaciente });
+                return result.FirstOrDefault();
+            }
+        }
+
         public async Task<Paciente> AddPaciente(Paciente paciente)
         {
             using (IDbConnection connection = _dbContext.CreateConnection())
@@ -38,5 +48,16 @@ namespace YourProject.Infrastructure.Repositories
                 return paciente;
             }    
         }
+
+        public async Task<int> DeletePaciente(int idPaciente)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = @"DELETE FROM Paciente WHERE Id = @Id";
+                var result = await connection.ExecuteAsync(query, new { Id = idPaciente });
+                return result;
+            }
+        }
+
     }
 }
