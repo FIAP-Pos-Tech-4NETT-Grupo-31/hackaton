@@ -11,9 +11,9 @@ namespace Application.Services
 
         public PacienteService(IPacienteRepository pacienteRepository)
         {
-            _pacienteRepository = pacienteRepository;
+            _pacienteRepository = pacienteRepository;            
         }
-       
+
         public IEnumerable<Paciente> GetAllPacientes()
         {
             var result = _pacienteRepository.GetAll();
@@ -35,6 +35,12 @@ namespace Application.Services
         public async Task<int> DeletePaciente(int idPaciente)
         {
             return await _pacienteRepository.DeletePaciente(idPaciente);
+        }
+
+        public int? GetIdByMail(string mail)
+        {
+            var id = _pacienteRepository.GetIdByMail(mail);
+            return id;
         }
     }
 }

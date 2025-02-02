@@ -56,6 +56,5 @@ namespace WebAPI.Controllers
             var resultado = await _pacienteService.DeletePaciente(idPaciente);
             return Ok();
         }
-
     }
 }

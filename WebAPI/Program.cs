@@ -10,6 +10,7 @@ using System.Data;
 using System.Text;
 using hackaton.Infrastructure.Repositories;
 using System.Reflection;
+using Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -86,6 +87,8 @@ builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
+builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+builder.Services.AddScoped<IConsultaService, ConsultaService>();
 builder.Services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 

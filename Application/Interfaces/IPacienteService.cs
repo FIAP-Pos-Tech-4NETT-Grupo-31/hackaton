@@ -13,5 +13,6 @@ namespace Application.Interfaces
         public Paciente? GetPacienteById(int idPaciente);
         public Task<Paciente> AddPaciente(Paciente paciente);
         public Task<int> DeletePaciente(int idPaciente);
+        public int? GetIdByMail(string mail);
     }
 }
