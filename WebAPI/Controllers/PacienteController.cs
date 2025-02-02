@@ -18,7 +18,6 @@ namespace WebAPI.Controllers
         }
         [Authorize]
         [HttpGet]
-        [Route("get_all")]
         public IEnumerable<Paciente> GetAll()
         {
             var pacientes = _pacienteService.GetAllPacientes();
@@ -26,12 +25,11 @@ namespace WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("get_by_id")]
-        public Paciente? GetPacienteById(int idPaciente)
+        [HttpGet("{pacienteId}")]
+        public Paciente? GetPacienteById(int pacienteId)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            var paciente = _pacienteService.GetPacienteById(idPaciente);
+            var paciente = _pacienteService.GetPacienteById(pacienteId);
             return paciente;
         }
                 

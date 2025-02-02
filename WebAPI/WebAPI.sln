@@ -17,6 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Itens", "Solution Itens", "{2FD8A03C-6BA5-4EB0-9970-2669E98FD2B4}"
 	ProjectSection(SolutionItems) = preProject
 		..\docker-compose.yml = ..\docker-compose.yml
+		..\scripts\generate-database.sql = ..\scripts\generate-database.sql
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
