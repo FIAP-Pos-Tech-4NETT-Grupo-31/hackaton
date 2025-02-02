@@ -26,6 +26,6 @@ jobs:
       run: dotnet build
       working-directory: ./WebAPI/
 
-    # - name: Unit Test - Application.Tests
-    #   run: dotnet test ./Application.Tests.csproj
-    #   working-directory: ./Application.Tests/
+    - name: Unit Test - Application.Unit.Tests
+      run: dotnet test ./Application.Unit.Tests.csproj
+      working-directory: ./Application.Unit.Tests/
