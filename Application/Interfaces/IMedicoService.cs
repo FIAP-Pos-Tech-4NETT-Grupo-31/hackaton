@@ -8,6 +8,6 @@ namespace Application.Interfaces
         Task<MedicoDto> GetMedicoById(int medicoId);
         Task<int> AddMedico(MedicoDto medico);
         Task<int> AlterMedico(int id, MedicoDto medico);
-        Task<int> DeleteMedicoById(int id);
+        Task<int> DeleteMedicoById(int id);        
     }
 }

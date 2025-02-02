@@ -59,5 +59,14 @@ namespace hackaton.Infrastructure.Repositories
             }
         }
 
+        public int? GetIdByMail(string mail)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = "SELECT Id FROM Paciente WHERE Email = @Email";
+                var result = connection.Query<int>(query, new { Email = mail});
+                return result.FirstOrDefault();
+            }
+        }
     }
 }

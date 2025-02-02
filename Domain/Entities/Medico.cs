@@ -9,5 +9,6 @@
         public string Telefone { get; set; }
         public string Email { get; set; }
         public DateTime DataCriacao { get; set; }
+        public string Horarios { get; set; }
     }
 }

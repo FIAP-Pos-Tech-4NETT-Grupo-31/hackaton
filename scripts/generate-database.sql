@@ -19,6 +19,7 @@ BEGIN
         [Email]        NVARCHAR (200) NOT NULL,
         [DataCriacao]  DATETIME       NOT NULL DEFAULT GETDATE(),
         [Senha]        NVARCHAR(200)  NOT NULL,
+        [Horarios]     NVARCHAR(200)  NOT NULL,
         CONSTRAINT [PK_Medico] PRIMARY KEY CLUSTERED ([Id] ASC)
     );
 END
@@ -58,26 +59,30 @@ GO
 
 IF NOT EXISTS (SELECT * FROM [dbo].[Medico] WHERE CRM = '12345')
 BEGIN
-    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha]) 
-    VALUES (N'João Silva', N'Cardiologista', N'12345', N'(11) 98765-4321', N'joao@exemplo.com', 'am9hbzEyMw=='); -- joao123
+    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha], [Horarios]) 
+    VALUES (N'João Silva', N'Cardiologista', N'12345', N'(11) 98765-4321', N'joao@exemplo.com', 'am9hbzEyMw==',
+    'Dur:30;Dom_09:00-18:00;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;Sab_09:00-18:00;'); -- joao123
 END
 
 IF NOT EXISTS (SELECT * FROM [dbo].[Medico] WHERE CRM = '54321')
 BEGIN
-    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha]) 
-    VALUES (N'Carlos Souza', N'Ortopedista', N'54321', N'(21) 99876-1234', N'carlos@exemplo.com', 'Y2FybG9zMTIz'); -- carlos123
+    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha], [Horarios]) 
+    VALUES (N'Carlos Souza', N'Ortopedista', N'54321', N'(21) 99876-1234', N'carlos@exemplo.com', 'Y2FybG9zMTIz',
+    'Dur:30;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;Sab_09:00-18:00;'); -- carlos123
 END
 
 IF NOT EXISTS (SELECT * FROM [dbo].[Medico] WHERE CRM = '67890')
 BEGIN
-    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha]) 
-    VALUES (N'Fernanda Lima', N'Ginecologista', N'67890', N'(31) 99567-4321', N'fernanda@exemplo.com', 'ZmVybmFuZGExMjM='); -- fernanda123
+    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha], [Horarios]) 
+    VALUES (N'Fernanda Lima', N'Ginecologista', N'67890', N'(31) 99567-4321', N'fernanda@exemplo.com', 'ZmVybmFuZGExMjM=',
+    'Dur:30;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;'); -- fernanda123
 END
 
 IF NOT EXISTS (SELECT * FROM [dbo].[Medico] WHERE CRM = '23456')
 BEGIN
-    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha]) 
-    VALUES (N'Roberto Costa', N'Pediatra', N'23456', N'(61) 99123-4567', N'roberto@exemplo.com', 'cm9iZXJ0bzEyMw=='); -- roberto123
+    INSERT INTO [dbo].[Medico] ([Nome], [Especialidade], [CRM], [Telefone], [Email], [Senha], [Horarios]) 
+    VALUES (N'Roberto Costa', N'Pediatra', N'23456', N'(61) 99123-4567', N'roberto@exemplo.com', 'cm9iZXJ0bzEyMw==',
+    'Dur:30;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;'); -- roberto123
 END
 
 IF NOT EXISTS (SELECT * FROM [dbo].[Paciente] WHERE CPF = '12345678901')

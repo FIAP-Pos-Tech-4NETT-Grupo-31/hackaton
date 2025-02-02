@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Dtos;
 using Domain.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace Application.Services
 {
@@ -34,5 +35,5 @@ namespace Application.Services
         {
             return await _medicoRepository.DeleteMedicoById(id);
         }
-    }
+    }    
 }
