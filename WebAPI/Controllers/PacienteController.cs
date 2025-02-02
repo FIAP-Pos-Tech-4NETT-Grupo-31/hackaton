@@ -30,7 +30,6 @@ namespace WebAPI.Controllers
         [Route("get_by_id")]
         public Paciente? GetPacienteById(int idPaciente)
         {
-            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             var paciente = _pacienteService.GetPacienteById(idPaciente);
             return paciente;
         }
@@ -58,6 +57,5 @@ namespace WebAPI.Controllers
             var resultado = await _pacienteService.DeletePaciente(idPaciente);
             return Ok();
         }
-
     }
 }

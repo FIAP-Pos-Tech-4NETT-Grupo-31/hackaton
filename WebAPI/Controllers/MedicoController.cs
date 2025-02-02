@@ -38,6 +38,6 @@ namespace WebAPI.Controllers
         [Authorize]
         public async Task<int> DeleteMedico(int medicoId)
             => await _medicoService.DeleteMedicoById(medicoId);
-        
+
     }
 }
