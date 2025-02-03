@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 namespace Application.Integration.Tests
 {
     [TestFixture]
-    [Ignore("Desabilitado temporariamente")]
+    [Ignore("Habilitar apenas quando for testar")]
     public class EmailServiceTests
     {
         private IEmailService _emailService;
@@ -14,12 +14,12 @@ namespace Application.Integration.Tests
         public void Setup()
         {
             var inMemorySettings = new Dictionary<string, string> {
-                {"EmailSettings:SmtpServer", "smtp.example.com"},
+                {"EmailSettings:SmtpServer", "live.smtp.mailtrap.io"},
                 {"EmailSettings:Port", "587"},
-                {"EmailSettings:Username", "your-email@example.com"},
-                {"EmailSettings:Password", "your-email-password"},
+                {"EmailSettings:Username", "smtp@mailtrap.io"},
+                {"EmailSettings:Password", "8278d132e6cb9da4c4ad8fc16e45d557"},
                 {"EmailSettings:EnableSsl", "true"},
-                {"EmailSettings:From", "your-email@example.com"}
+                {"EmailSettings:From", "fiap.grupo31@demomailtrap.com"}
             };
 
             IConfiguration configuration = new ConfigurationBuilder()
@@ -33,7 +33,7 @@ namespace Application.Integration.Tests
         public async Task SendEmailAsync_Deve_Enviar_Email()
         {
             // Arrange
-            var to = "recipient@example.com";
+            var to = "paulon0@yahoo.com.br";
             var subject = "Test Email";
             var body = "This is a test email.";
 
