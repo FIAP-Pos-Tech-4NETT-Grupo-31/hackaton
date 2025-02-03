@@ -44,3 +44,7 @@ hackaton
 │
 └── hackaton.sln
 ```
+
+# Envio de Emails
+- Para enviar emails é necessário configurar o arquivo `appsettings.json` do projeto WebAPI com as credenciais do email que será utilizado para enviar os emails.
+- Foi criada uma conta no Serviço Mailtrap.io para testes, as credenciais já estão configuradas no arquivo `appsettings.json` no repositório.

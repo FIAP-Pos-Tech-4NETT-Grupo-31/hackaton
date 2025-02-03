@@ -59,12 +59,12 @@ namespace hackaton.Infrastructure.Repositories
             }
         }
 
-        public int? GetIdByMail(string mail)
+        public Paciente? GetPacienteByMail(string mail)
         {
             using (IDbConnection connection = _dbContext.CreateConnection())
             {
-                string query = "SELECT Id FROM Paciente WHERE Email = @Email";
-                var result = connection.Query<int>(query, new { Email = mail});
+                string query = "SELECT SELECT Id, Nome, Email, CPF FROM Paciente WHERE Email = @Email";
+                var result = connection.Query<Paciente>(query, new { Email = mail});
                 return result.FirstOrDefault();
             }
         }

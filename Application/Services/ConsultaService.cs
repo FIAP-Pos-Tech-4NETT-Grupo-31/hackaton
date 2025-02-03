@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Services
 {
@@ -15,10 +16,13 @@ namespace Application.Services
         private readonly IMedicoService _medicoService;
         private readonly IPacienteService _pacienteService;
         private readonly IAgendaRepository _agendaRepository;
-        public ConsultaService(IMedicoService medicoService, IAgendaRepository agendaRepository, IPacienteService pacienteService) {
+        private readonly IEmailService _emailService;
+
+        public ConsultaService(IMedicoService medicoService, IAgendaRepository agendaRepository, IPacienteService pacienteService, IEmailService emailService) {
             _medicoService = medicoService;
             _agendaRepository = agendaRepository;
             _pacienteService = pacienteService;
+            _emailService = emailService;
         }
 
         public HorarioMedico ConvertHorarioMedico(string horarioMedico)
@@ -101,9 +105,18 @@ namespace Application.Services
             }
 
             if (isMedicoAvailable) {
-                var idPaciente = _pacienteService.GetIdByMail(userEmail);
-                if (idPaciente != null)
-                    await _agendaRepository.AddAppointment(idMedico, idPaciente.Value, scheduleMedico);
+                var paciente = _pacienteService.GetPacienteByMail(userEmail);
+                if (paciente != null)
+                {
+                    var medico = await _medicoService.GetMedicoById(idMedico);
+                    await _agendaRepository.AddAppointment(idMedico, paciente.Id, scheduleMedico);
+                    
+                    var mailBody = new StringBuilder();
+                    mailBody.AppendLine($"Olá, {medico.Nome}!");
+                    mailBody.AppendLine($"Você tem uma nova consulta marcada! Paciente: {paciente.Nome}");
+                    mailBody.AppendLine($"Data e horário: {scheduleMedico.ToString("dd/MM/yyyy")} às {wantedHour}.");
+                    await _emailService.SendEmailAsync(medico.Email, "Health & Med - Nova consulta agendada", mailBody.ToString());                    
+                }
             }
 
             return isMedicoAvailable;
