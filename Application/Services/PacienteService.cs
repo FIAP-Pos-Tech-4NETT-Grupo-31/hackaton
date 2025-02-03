@@ -37,10 +37,10 @@ namespace Application.Services
             return await _pacienteRepository.DeletePaciente(idPaciente);
         }
 
-        public int? GetIdByMail(string mail)
+        public Paciente GetPacienteByMail(string mail)
         {
-            var id = _pacienteRepository.GetIdByMail(mail);
-            return id;
+            var paciente = _pacienteRepository.GetPacienteByMail(mail);
+            return paciente;
         }
     }
 }

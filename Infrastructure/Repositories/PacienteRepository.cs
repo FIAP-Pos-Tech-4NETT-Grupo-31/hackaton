@@ -59,7 +59,7 @@ namespace hackaton.Infrastructure.Repositories
             }
         }
 
-        public Paciente? GetIdByMail(string mail)
+        public Paciente? GetPacienteByMail(string mail)
         {
             using (IDbConnection connection = _dbContext.CreateConnection())
             {
