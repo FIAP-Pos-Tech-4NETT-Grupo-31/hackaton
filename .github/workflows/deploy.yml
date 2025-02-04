@@ -1,0 +1,44 @@
+name: Deploy WebAPI
+
+on:
+   push:
+       branches:
+           - master
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+
+   steps:
+   - uses: actions/checkout@v4
+     
+   - name: Setup .NET
+     uses: actions/setup-dotnet@v4
+     with:
+       dotnet-version: 8.0.x
+
+   - name: Restore dependencies
+     run: dotnet restore
+     working-directory: ./WebAPI/
+
+   - name: Build
+     run: dotnet build
+     working-directory: ./WebAPI/
+
+   - name: Unit Test - Application.Unit.Tests
+     run: dotnet test ./Application.Unit.Tests.csproj
+     working-directory: ./Application.Unit.Tests/
+
+   - name: Publish
+     run: dotnet publish -c Release -o out
+     working-directory: ./WebAPI/
+
+   - name: Build Docker image
+     run: docker build -t ghcr.io/OWNER/REPO:latest .
+     working-directory: ./WebAPI/
+
+   - name: Log in to GitHub Container Registry
+     run: echo ${{ secrets.HACKATON_DEPLOY_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+   - name: Push Docker image
+     run: docker push ghcr.io/OWNER/REPO:latest
