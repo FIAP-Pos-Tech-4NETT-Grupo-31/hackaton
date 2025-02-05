@@ -35,5 +35,13 @@ namespace WebAPI.Controllers
             var result = await _consultaService.ScheduleWithMedico(data.Date, data.IdMedico, userEmail);
             return result;
         }
+
+        [HttpPost("/approve_consulta")]
+        [Authorize]
+        public async Task<bool> ApproveConsulta([FromQuery] int idConsulta, bool approve)
+        {
+            var result = await _consultaService.ApproveOrDeleteConsulta(idConsulta, approve);
+            return result;
+        }
     }
 }

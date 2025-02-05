@@ -63,7 +63,7 @@ namespace hackaton.Infrastructure.Repositories
         {
             using (IDbConnection connection = _dbContext.CreateConnection())
             {
-                string query = "SELECT SELECT Id, Nome, Email, CPF FROM Paciente WHERE Email = @Email";
+                string query = "SELECT Id, Nome, Email, CPF FROM Paciente WHERE Email = @Email";
                 var result = connection.Query<Paciente>(query, new { Email = mail});
                 return result.FirstOrDefault();
             }

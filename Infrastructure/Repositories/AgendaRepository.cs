@@ -35,8 +35,27 @@ namespace Infrastructure.Repositories
             {
                 string query = @"INSERT INTO Agenda (IdMedico, IdPaciente, DataConsulta, Status) 
                                  VALUES (@IdMedico, @IdPaciente, @DataConsulta, @Status)";
-                var result = await connection.ExecuteAsync(query, new { IdMedico = idMedico, IdPaciente = idPaciente, DataConsulta = date.ToString(), Status = "Agendado"});
+                var result = await connection.ExecuteAsync(query, new { IdMedico = idMedico, IdPaciente = idPaciente, DataConsulta = date.ToString(), Status = "Solicitado"});
                 return result > 0 ? true : false;
+            }
+        }
+
+        public async Task<int> ApproveConsulta(int idConsulta)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = @"UPDATE Agenda SET Status = 'Agendado' WHERE Id = @Id";
+                var result = await connection.ExecuteAsync(query, new { Id = idConsulta });
+                return result;
+            }
+        }
+        public async Task<int> DeleteConsulta(int idConsulta)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = @"DELETE FROM Agenda WHERE Id = @Id";
+                var result = await connection.ExecuteAsync(query, new { Id = idConsulta });
+                return result;
             }
         }
     }
