@@ -56,5 +56,12 @@ namespace WebAPI.Controllers
             var resultado = await _pacienteService.DeletePaciente(idPaciente);
             return Ok();
         }
+
+        [Authorize]
+        [HttpGet("/consultas_paciente")]
+        public IEnumerable<Agenda> GetPacienteConsultas([FromQuery] int idPaciente)
+        {
+            return _pacienteService.GetConsultasPaciente(idPaciente);
+        }
     }
 }

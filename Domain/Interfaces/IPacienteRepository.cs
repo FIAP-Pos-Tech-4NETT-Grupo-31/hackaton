@@ -4,10 +4,11 @@ namespace Domain.Interfaces
 {
     public interface IPacienteRepository
     {
-        public IEnumerable<Paciente> GetAll();
-        public Paciente? GetPacienteById(int idPaciente);
-        public Task<Paciente> AddPaciente(Paciente paciente);
-        public Task<int> DeletePaciente(int idPaciente);
-        public Paciente? GetPacienteByMail(string mail);
+        IEnumerable<Paciente> GetAll();
+        Paciente? GetPacienteById(int idPaciente);
+        Task<Paciente> AddPaciente(Paciente paciente);
+        Task<int> DeletePaciente(int idPaciente);
+        Paciente? GetPacienteByMail(string mail);
+        IEnumerable<Agenda> GetConsultasPaciente(int idPaciente);
     }
 }

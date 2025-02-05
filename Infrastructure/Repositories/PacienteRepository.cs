@@ -68,5 +68,15 @@ namespace hackaton.Infrastructure.Repositories
                 return result.FirstOrDefault();
             }
         }
+        
+        public IEnumerable<Agenda> GetConsultasPaciente(int idPaciente)
+        {
+            using (IDbConnection connection = _dbContext.CreateConnection())
+            {
+                string query = "SELECT Id, IdMedico, IdPaciente, DataConsulta, Status FROM Agenda WHERE IdPaciente = @IdPaciente";
+                var result = connection.Query<Agenda>(query, new { IdPaciente = idPaciente});
+                return result;
+            }
+        }
     }
 }
