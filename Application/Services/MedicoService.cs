@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Dtos;
+using Domain.Entities;
 using Domain.Interfaces;
 using System.Text.RegularExpressions;
 
@@ -34,6 +35,27 @@ namespace Application.Services
         public async Task<int> DeleteMedicoById(int id)
         {
             return await _medicoRepository.DeleteMedicoById(id);
+        }
+
+        public async Task<int> UpdateMedicoSchedule(int idMedico, HorarioMedico horarioMedico)
+        {
+            var newHorarioMedico = $"Dur:{horarioMedico.DuracaoConsulta};";
+            newHorarioMedico += horarioMedico.Dom != null ? $"Dom_{horarioMedico.Dom};" : "";
+            newHorarioMedico += horarioMedico.Seg != null ? $"Seg_{horarioMedico.Seg};" : "";
+            newHorarioMedico += horarioMedico.Ter != null ? $"Ter_{horarioMedico.Ter};" : "";
+            newHorarioMedico += horarioMedico.Qui != null ? $"Qui_{horarioMedico.Qui};" : "";
+            newHorarioMedico += horarioMedico.Qua != null ? $"Qua_{horarioMedico.Qua};" : "";
+            newHorarioMedico += horarioMedico.Sex != null ? $"Sex_{horarioMedico.Sex};" : "";
+            newHorarioMedico += horarioMedico.Sab != null ? $"Sab_{horarioMedico.Sab};" : "";
+
+            var result = await _medicoRepository.UpdateMedicoSchedule(idMedico, newHorarioMedico);
+            return result;
+        }
+
+        public IEnumerable<Agenda> GetPendingConsultas(int idMedico)
+        {
+            var consultas = _medicoRepository.GetPendingConsultas(idMedico);
+            return consultas;
         }
     }    
 }

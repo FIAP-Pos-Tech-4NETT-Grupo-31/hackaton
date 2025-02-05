@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos;
+using Domain.Entities;
 
 namespace Domain.Interfaces
 {
@@ -9,5 +10,7 @@ namespace Domain.Interfaces
         Task<int> AddMedico(MedicoDto medico);
         Task<int> AlterMedico(int id, MedicoDto medico);
         Task<int> DeleteMedicoById(int id);
+        Task<int> UpdateMedicoSchedule(int medicoId, string novoHorarioMedico);
+        IEnumerable<Agenda> GetPendingConsultas(int idMedico);
     }
 }

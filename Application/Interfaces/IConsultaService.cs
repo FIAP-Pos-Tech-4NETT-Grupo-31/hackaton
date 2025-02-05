@@ -9,7 +9,8 @@ namespace Application.Interfaces
 {
     public interface IConsultaService
     {
-        public Task<HorarioMedico?> GetHorariosMedico(int idMedico);
-        public Task<bool> ScheduleWithMedico(DateTime scheduleMedico, int idMedico, string userEmail);
+        Task<HorarioMedico?> GetHorariosMedico(int idMedico);
+        Task<bool> ScheduleWithMedico(DateTime scheduleMedico, int idMedico, string userEmail);
+        Task<bool> ApproveOrDeleteConsulta(int idConsulta, bool approveOrReprove);
     }
 }

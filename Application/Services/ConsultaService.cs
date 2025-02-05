@@ -111,11 +111,13 @@ namespace Application.Services
                     var medico = await _medicoService.GetMedicoById(idMedico);
                     await _agendaRepository.AddAppointment(idMedico, paciente.Id, scheduleMedico);
                     
+                    /*
                     var mailBody = new StringBuilder();
                     mailBody.AppendLine($"Olá, {medico.Nome}!");
                     mailBody.AppendLine($"Você tem uma nova consulta marcada! Paciente: {paciente.Nome}");
                     mailBody.AppendLine($"Data e horário: {scheduleMedico.ToString("dd/MM/yyyy")} às {wantedHour}.");
                     await _emailService.SendEmailAsync(medico.Email, "Health & Med - Nova consulta agendada", mailBody.ToString());                    
+                    */
                 }
             }
 
@@ -129,6 +131,14 @@ namespace Application.Services
 
             if (wantedHour.CompareTo(initTime) >= 0 && wantedHour.CompareTo(endTime) <= 0) return true;
             else return false;
+        }
+
+        public async Task<bool> ApproveOrDeleteConsulta(int idConsulta, bool approveOrReprove)
+        {
+            if (approveOrReprove) await _agendaRepository.ApproveConsulta(idConsulta);
+            else await _agendaRepository.DeleteConsulta(idConsulta);
+
+            return true;
         }
     }
 }
