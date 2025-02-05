@@ -23,20 +23,37 @@ jobs:
       working-directory: ./WebAPI/
 
     - name: Build
-      run: dotnet build
+      run: dotnet build -c Release --no-restore
+      working-directory: ./WebAPI/
+
+    - name: Publish
+      run: dotnet publish -c Release -o out --no-build
       working-directory: ./WebAPI/
 
     - name: Unit Test - Application.Unit.Tests
       run: dotnet test ./Application.Unit.Tests.csproj
       working-directory: ./Application.Unit.Tests/
 
-    - name: Publish
-      run: dotnet publish -c Release -o out
-      working-directory: ./WebAPI/
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: published-app
+        path: ./WebAPI/out
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build 
+
+    steps:
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: published-app
+        path: ./out
 
     - name: Build Docker image
       run: docker build -t ghcr.io/grupo31/hackaton:latest .
-      working-directory: ./WebAPI/
+      working-directory: ./out
 
     - name: Log in to GitHub Container Registry
       run: echo ${{ secrets.HACKATON_DEPLOY_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
