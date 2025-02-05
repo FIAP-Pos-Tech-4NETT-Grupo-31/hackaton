@@ -42,5 +42,10 @@ namespace Application.Services
             var paciente = _pacienteRepository.GetPacienteByMail(mail);
             return paciente;
         }
+
+        public IEnumerable<Agenda> GetConsultasPaciente(int idPaciente)
+        {
+            return _pacienteRepository.GetConsultasPaciente(idPaciente);
+        }
     }
 }
