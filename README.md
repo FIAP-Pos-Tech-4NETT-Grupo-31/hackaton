@@ -45,6 +45,11 @@ hackaton
 └── hackaton.sln
 ```
 
+# Execução em Modo Release
+No modo release, além de subir o banco de dados, o docker-compose-release.yml está sendo usado para recuperar e executar a imagem do projeto WebAPI que foi publicada no GitHub Packages.
+
+```$ docker-compose -p hackaton-release -f .\docker-compose-release.yml up -d ```
+
 # Envio de Emails
 - Para enviar emails é necessário configurar o arquivo `appsettings.json` do projeto WebAPI com as credenciais do email que será utilizado para enviar os emails.
 - Foi criada uma conta no Serviço Mailtrap.io para testes, as credenciais já estão configuradas no arquivo `appsettings.json` no repositório.

@@ -45,7 +45,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # Aguarda o job "build" terminar
+    needs: build 
 
     steps:
     - name: Download Build Artifacts
