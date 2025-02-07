@@ -11,10 +11,10 @@ namespace WebAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class MedicoController : ControllerBase
+    public class MedicosController : ControllerBase
     {
         private readonly IMedicoService _medicoService;        
-        public MedicoController(IMedicoService medicoService) => _medicoService = medicoService;
+        public MedicosController(IMedicoService medicoService) => _medicoService = medicoService;
 
         [HttpGet]
         [Authorize]
@@ -41,9 +41,10 @@ namespace WebAPI.Controllers
         public async Task<int> DeleteMedico(int medicoId)
             => await _medicoService.DeleteMedicoById(medicoId);
 
-        [HttpPut("/update_agenda_medico")]
+        [HttpPut]
+        [Route("{medicoId}/Horarios")]
         [Authorize]
-        public async Task<int> UpdateMedicoSchedule([FromQuery] int medicoId, HorarioMedicoRequest novoHorario)
+        public async Task<int> UpdateMedicoSchedule([FromRoute] int medicoId, HorarioMedicoRequest novoHorario)
         {
             var horarioMedico = new HorarioMedico();
             horarioMedico.DuracaoConsulta = novoHorario.DuracaoConsulta.ToString();
@@ -73,9 +74,10 @@ namespace WebAPI.Controllers
             return result;
         }
 
-        [HttpGet("/get_pending_consultas")]
+        [HttpGet]
+        [Route("{medicoId}/Consultas")]
         [Authorize]
-        public async Task<IEnumerable<Agenda>> GetPendingConsultas([FromQuery] int medicoId)
+        public async Task<IEnumerable<Agenda>> GetPendingConsultas([FromRoute] int medicoId)
         {
             var consultas = _medicoService.GetPendingConsultas(medicoId);
             return consultas;

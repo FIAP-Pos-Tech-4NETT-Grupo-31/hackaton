@@ -9,25 +9,27 @@ using WebAPI.Models.Requests;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ConsultaController : ControllerBase
+    public class ConsultasController : ControllerBase
     {
         private readonly IConsultaService _consultaService;
-        public ConsultaController(IConsultaService consultaService) {
+
+        public ConsultasController(IConsultaService consultaService) {
             _consultaService = consultaService;
         }
 
-        [HttpGet("/agenda_medico")]
+        [HttpGet]
+        [Route("Horarios/{medicoId}")]
         [Authorize]
-        public async Task<HorarioMedico?> GetHorariosMedico(int idMedico)
+        public async Task<HorarioMedico?> GetHorariosMedico(int medicoId)
         {
-            var horarioMedico = await _consultaService.GetHorariosMedico(idMedico);
+            var horarioMedico = await _consultaService.GetHorariosMedico(medicoId);
             return horarioMedico;
-
         }
 
-        [HttpPost("/agendar_consulta")]
+        [HttpPost]
+        [Route("Agendar")]
         [Authorize]
         public async Task<bool> ScheduleWithMedico(ScheduleMedico data)
         {
@@ -36,11 +38,12 @@ namespace WebAPI.Controllers
             return result;
         }
 
-        [HttpPost("/approve_consulta")]
+        [HttpPost]
+        [Route("Aprovar")]
         [Authorize]
-        public async Task<bool> ApproveConsulta([FromQuery] int idConsulta, bool approve)
+        public async Task<bool> ApproveConsulta(AprovacaoRequest aprovacao)
         {
-            var result = await _consultaService.ApproveOrDeleteConsulta(idConsulta, approve);
+            var result = await _consultaService.ApproveOrDeleteConsulta(aprovacao.IdConsulta, aprovacao.Aprovar);
             return result;
         }
     }

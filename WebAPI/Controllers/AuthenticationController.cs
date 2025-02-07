@@ -6,17 +6,18 @@ using Domain.Enum;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
         public readonly IAuthenticationService _authenticationService;
+
         public AuthenticationController(IAuthenticationService AuthenticationService) {
             _authenticationService = AuthenticationService;
         }
 
         [HttpPost]
-        [Route("paciente_authentication")]
+        [Route("Paciente")]
         public IActionResult AutenthicatePaciente([FromBody] CredentialRequest credencial)
         {
             var token = _authenticationService.GetToken(credencial.Email, credencial.Senha, Roles.Paciente);
@@ -27,10 +28,10 @@ namespace WebAPI.Controllers
         }
         
         [HttpPost]
-        [Route("medico_authentication")]
-        public IActionResult AutenthicateMedico([FromBody] CredentialRequest credencial)
+        [Route("Medico")]
+        public IActionResult AutenthicateMedico([FromBody] CredentialMedicoRequest credencial)
         {
-            var token = _authenticationService.GetToken(credencial.Email, credencial.Senha, Roles.Medico);
+            var token = _authenticationService.GetToken(credencial.CRMOuEmail, credencial.Senha, Roles.Medico);
 
             if (!string.IsNullOrWhiteSpace(token)) return Ok(token);
 

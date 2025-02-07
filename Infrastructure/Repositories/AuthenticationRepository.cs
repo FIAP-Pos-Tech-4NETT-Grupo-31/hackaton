@@ -17,13 +17,14 @@ namespace hackaton.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public Credentials? GetCredentials(string email, string senha, Roles role)
+        public Credentials? GetCredentials(string login, string senha, Roles role)
         {
             using (IDbConnection connection = _dbContext.CreateConnection())
             {
-                string table = role == Roles.Paciente ? "Paciente" : "Medico";
-                string query = $"SELECT Email, Senha FROM {table} WHERE Email = @Email AND Senha = @Senha";
-                var parametros = new { Email = email, Senha = senha };
+                string query = role == Roles.Paciente ?
+                    $"SELECT Email, Senha FROM Paciente WHERE Email = @Login AND Senha = @Senha"
+                    : $"SELECT Email, Senha FROM Medico WHERE (Email = @Login OR CRM = @Login) AND Senha = @Senha";
+                var parametros = new { Login = login, Senha = senha };
                 var result = connection.Query<Credentials>(query, parametros);
                 return result.FirstOrDefault();
             }

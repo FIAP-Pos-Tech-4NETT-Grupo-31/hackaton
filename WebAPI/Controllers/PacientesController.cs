@@ -9,10 +9,10 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PacienteController : ControllerBase
+    public class PacientesController : ControllerBase
     {
         private readonly IPacienteService _pacienteService;
-        public PacienteController(IPacienteService pacienteService)
+        public PacientesController(IPacienteService pacienteService)
         {
             _pacienteService = pacienteService;
         }
@@ -51,17 +51,18 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> Put([FromBody] int idPaciente)
+        public async Task<IActionResult> Put([FromBody] int pacienteId)
         {            
-            var resultado = await _pacienteService.DeletePaciente(idPaciente);
+            var resultado = await _pacienteService.DeletePaciente(pacienteId);
             return Ok();
         }
 
         [Authorize]
-        [HttpGet("/consultas_paciente")]
-        public IEnumerable<Agenda> GetPacienteConsultas([FromQuery] int idPaciente)
+        [HttpGet]
+        [Route("{pacienteId}/Consultas")]
+        public IEnumerable<Agenda> GetPacienteConsultas([FromRoute] int pacienteId)
         {
-            return _pacienteService.GetConsultasPaciente(idPaciente);
+            return _pacienteService.GetConsultasPaciente(pacienteId);
         }
     }
 }
