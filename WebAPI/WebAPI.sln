@@ -16,9 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Itens", "Solution Itens", "{2FD8A03C-6BA5-4EB0-9970-2669E98FD2B4}"
 	ProjectSection(SolutionItems) = preProject
-		..\docker-compose.yml = ..\docker-compose.yml
 		..\docker-compose-release.yml = ..\docker-compose-release.yml
+		..\docker-compose.yml = ..\docker-compose.yml
 		..\scripts\generate-database.sql = ..\scripts\generate-database.sql
+		..\Hackaton.drawio.png = ..\Hackaton.drawio.png
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
