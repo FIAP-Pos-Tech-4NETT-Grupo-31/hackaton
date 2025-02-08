@@ -16,7 +16,7 @@ A arquitetura inicial foi pensada para atender ao MVP, sendo composta apenas por
 
 O pipeline de CI/CD foi implementado no próprio repositório utilizando o GitHubActions. Além de realizar o build da aplicação, o workflow também inclui um job de deploy para montar e subir a imagem atualizada da API para o registro de containers do GitHub Packages
 
-![Desenho da Solução MVP](https://drive.google.com/file/d/166dx7nO0AQPq4Y_SwHDdm_AJU4_PdH_C/view)
+![Desenho da Solução MVP](hackaton.png)
 
 # Health&Med - Expansão da Arquitetura
 
