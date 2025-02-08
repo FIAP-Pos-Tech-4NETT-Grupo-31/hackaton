@@ -1,8 +1,7 @@
-﻿namespace Domain.Entities
+﻿namespace Domain.Dtos
 {
-    public class Agenda
+    public class AgendaDto
     {
-        public int Id { get; set; }
         public int IdMedico { get; set; }
         public int IdPaciente { get; set; }
         public DateTime DataConsulta { get; set; }

@@ -1,14 +1,14 @@
-﻿using Domain.Entities;
+﻿using Domain.Dtos;
 
 namespace Domain.Interfaces
 {
     public interface IPacienteRepository
     {
-        IEnumerable<Paciente> GetAll();
-        Paciente? GetPacienteById(int idPaciente);
-        Task<Paciente> AddPaciente(Paciente paciente);
+        Task<IEnumerable<PacienteDto>> GetAll();
+        Task<PacienteDto>? GetPacienteById(int idPaciente);
+        Task<PacienteDto> AddPaciente(PacienteDto paciente);
         Task<int> DeletePaciente(int idPaciente);
-        Paciente? GetPacienteByMail(string mail);
-        IEnumerable<Agenda> GetConsultasPaciente(int idPaciente);
+        Task<PacienteDto> GetPacienteByMail(string mail);
+        Task<IEnumerable<AgendaDto>> GetConsultasPaciente(int idPaciente);
     }
 }

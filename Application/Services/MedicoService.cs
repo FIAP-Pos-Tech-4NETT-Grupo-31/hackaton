@@ -1,8 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Dtos;
-using Domain.Entities;
 using Domain.Interfaces;
-using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Application.Services
 {
@@ -24,6 +23,7 @@ namespace Application.Services
 
         public async Task<int> AddMedico(MedicoDto medico)
         {
+            medico.Senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(medico.Senha));
             return await _medicoRepository.AddMedico(medico);
         }
 
@@ -52,9 +52,9 @@ namespace Application.Services
             return result;
         }
 
-        public IEnumerable<Agenda> GetPendingConsultas(int idMedico)
+        public async Task<IEnumerable<AgendaDto>> GetPendingConsultas(int idMedico)
         {
-            var consultas = _medicoRepository.GetPendingConsultas(idMedico);
+            var consultas = await _medicoRepository.GetPendingConsultasAsync(idMedico);
             return consultas;
         }
     }    

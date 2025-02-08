@@ -1,19 +1,15 @@
-﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Dtos;
+using Domain.Entities;
 
 namespace Application.Interfaces
 {
     public interface IPacienteService
     {
-        IEnumerable<Paciente> GetAllPacientes();
-        Paciente? GetPacienteById(int idPaciente);
-        Task<Paciente> AddPaciente(Paciente paciente);
+        Task<IEnumerable<PacienteDto>> GetAllPacientes();
+        Task<PacienteDto?> GetPacienteById(int idPaciente);
+        Task<PacienteDto> AddPaciente(PacienteDto paciente);
         Task<int> DeletePaciente(int idPaciente);
-        Paciente? GetPacienteByMail(string mail);
-        IEnumerable<Agenda> GetConsultasPaciente(int idPaciente);
+        Task<PacienteDto> GetPacienteByMail(string mail);
+        Task<IEnumerable<AgendaDto>> GetConsultasPaciente(int idPaciente);
     }
 }

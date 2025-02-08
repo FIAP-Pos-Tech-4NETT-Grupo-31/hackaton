@@ -1,13 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Dtos;
 using Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Services
 {
@@ -78,6 +72,23 @@ namespace Application.Services
             var currentDay = scheduleMedico.DayOfWeek;
             var wantedHour = scheduleMedico.ToString("HH:mm");
 
+            var diasEstaDisponivel = false;
+
+            switch (currentDay)
+            {
+                case DayOfWeek.Sunday: diasEstaDisponivel = horarios.Dom != null; break;
+                case DayOfWeek.Monday: diasEstaDisponivel = horarios.Seg != null; break;
+                case DayOfWeek.Tuesday: diasEstaDisponivel = horarios.Ter != null; break;
+                case DayOfWeek.Wednesday: diasEstaDisponivel = horarios.Qua != null; break;
+                case DayOfWeek.Thursday: diasEstaDisponivel = horarios.Qui != null; break;
+                case DayOfWeek.Friday: diasEstaDisponivel = horarios.Sex != null; break;
+                case DayOfWeek.Saturday: diasEstaDisponivel = horarios.Sab != null; break;
+                default: break;
+            }
+
+            if (!diasEstaDisponivel)
+                throw new Exception($"Médico indisponível no dia proposto, dia: { currentDay }, { scheduleMedico }");
+
             switch (currentDay)
             {
                 case DayOfWeek.Sunday: isMedicoAvailable = CheckMedicoAvailability(wantedHour, horarios.Dom); break;
@@ -105,7 +116,7 @@ namespace Application.Services
             }
 
             if (isMedicoAvailable) {
-                var paciente = _pacienteService.GetPacienteByMail(userEmail);
+                var paciente = await _pacienteService.GetPacienteByMail(userEmail);
                 if (paciente != null)
                 {
                     var medico = await _medicoService.GetMedicoById(idMedico);

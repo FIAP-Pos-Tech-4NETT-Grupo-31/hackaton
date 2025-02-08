@@ -1,82 +1,71 @@
-﻿
+﻿using AutoMapper;
 using Dapper;
+using Domain.Dtos;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Context;
+using Infrastructure.Querys;
 using System.Data;
-using System.Data.Common;
 
 namespace hackaton.Infrastructure.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
+        private readonly IDbConnection _dbConnection;
+        private readonly IMapper _map;
         private readonly DapperDbContext _dbContext;
 
-        public PacienteRepository(DapperDbContext dbContext)
+        public PacienteRepository(DapperDbContext dbContext, IDbConnection dbConnection, IMapper map)
         {
+            _dbConnection = dbConnection;
+            _map = map;
             _dbContext = dbContext;
         }        
 
-        public IEnumerable<Paciente> GetAll()
+        public async Task<IEnumerable<PacienteDto>> GetAll()
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = "SELECT Id, Nome, Email, CPF FROM Paciente";
-                var result = connection.Query<Paciente>(query);
-                return result;
-            }
+            var pacienteList = await _dbConnection.QueryAsync<Paciente>(PacienteQuery.GetAll);
+            return _map.Map<IEnumerable<PacienteDto>>(pacienteList.ToList());
         }
 
-        public Paciente? GetPacienteById(int idPaciente)
+        public async Task<PacienteDto>? GetPacienteById(int idPaciente)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = "SELECT Id, Nome, Email, CPF FROM Paciente WHERE Id = @Id";
-                var result = connection.Query<Paciente>(query, new { Id = idPaciente });
-                return result.FirstOrDefault();
-            }
+            var paciente = await _dbConnection.QueryFirstOrDefaultAsync<Paciente>(
+                            PacienteQuery.GetPacienteById, new { Id = idPaciente });
+
+            return _map.Map<PacienteDto>(paciente);
         }
 
-        public async Task<Paciente> AddPaciente(Paciente paciente)
+        public async Task<PacienteDto> AddPaciente(PacienteDto paciente)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
+            _ = await _dbConnection.ExecuteAsync(PacienteQuery.AddPaciente, new
             {
-                string query = @"INSERT INTO Paciente (Nome, Email, Telefone, CPF, Senha, DataNascimento) 
-                                 VALUES (@Nome, @Email, @Telefone, @CPF, @Senha, @DataNascimento)";
-                var id = await connection.ExecuteAsync(query, paciente);
-                paciente.Id = id;
-                return paciente;
-            }    
+                paciente.Nome,
+                paciente.DataNascimento,
+                paciente.CPF,
+                paciente.Telefone,
+                paciente.Senha,
+                paciente.Email
+            });
+
+            return paciente;
         }
 
         public async Task<int> DeletePaciente(int idPaciente)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = @"DELETE FROM Paciente WHERE Id = @Id";
-                var result = await connection.ExecuteAsync(query, new { Id = idPaciente });
-                return result;
-            }
+            return await _dbConnection.ExecuteAsync(PacienteQuery.DeletePaciente, new { Id = idPaciente });
         }
 
-        public Paciente? GetPacienteByMail(string mail)
+        public async Task<PacienteDto> GetPacienteByMail(string mail)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = "SELECT Id, Nome, Email, CPF FROM Paciente WHERE Email = @Email";
-                var result = connection.Query<Paciente>(query, new { Email = mail});
-                return result.FirstOrDefault();
-            }
+            var paciente = await _dbConnection.QueryFirstOrDefaultAsync<Paciente>(PacienteQuery.GetPacienteByMail, new { Email = mail });
+            return _map.Map<PacienteDto>(paciente);
         }
         
-        public IEnumerable<Agenda> GetConsultasPaciente(int idPaciente)
+        public async Task<IEnumerable<AgendaDto>> GetConsultasPaciente(int idPaciente)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = "SELECT Id, IdMedico, IdPaciente, DataConsulta, Status FROM Agenda WHERE IdPaciente = @IdPaciente";
-                var result = connection.Query<Agenda>(query, new { IdPaciente = idPaciente});
-                return result;
-            }
+            var consulta = await _dbConnection.QueryAsync<Agenda>(PacienteQuery.GetConsultasPaciente, new { IdPaciente = idPaciente });
+            return _map.Map<IEnumerable<AgendaDto>>(consulta);
         }
     }
 }

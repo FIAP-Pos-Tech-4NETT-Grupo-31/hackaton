@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
                     AND DataConsulta BETWEEN @StartDate AND @EndDate
                 ";
                 var result = connection.Query<Agenda>(query, new { IdMedico = idMedico, StartDate = date.ToString("yyyy-dd-MM"), EndDate = date.AddDays(1).ToString("yyyy-dd-MM") });
-                return result;
+                return result.ToList();
             }                
         }
 

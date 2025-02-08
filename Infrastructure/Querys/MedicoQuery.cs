@@ -14,13 +14,19 @@
                             ,[Especialidade]
                             ,[CRM]
                             ,[Telefone]
-                            ,[Email])
+                            ,[Email]
+                            ,[DataCriacao]
+                            ,[Senha]
+                            ,[Horarios])
                         VALUES
                             (@Nome,
                             @Especialidade,
                             @CRM,
                             @Telefone,
-                            @Email)";
+                            @Email,
+                            @DataCriacao,
+                            @Senha,
+                            @Horarios)";
 
         public const string AlterMedico = @"
                 UPDATE [dbo].[Medico]
@@ -34,5 +40,19 @@
         public const string DeleteMedico = @"
                 DELETE FROM [dbo].[Medico]
                       WHERE Id = @Id";
+
+        public const string UpdateMedicoSchedule = @"
+                UPDATE Medico 
+                SET Horarios = @Horarios 
+                WHERE Id = @Id";
+
+        public const string GetPendingConsultas = @"
+                Select Id, 
+                        IdMedico,
+                        IdPaciente,
+                        DataConsulta, 
+                        Status 
+                FROM Agenda 
+                WHERE IdMedico = @IdMedico and Status = 'Solicitado'";
     }
 }

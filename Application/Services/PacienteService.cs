@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
+using AutoMapper;
+using Domain.Dtos;
 using Domain.Interfaces;
 using System.Text;
 
@@ -8,25 +9,24 @@ namespace Application.Services
     public class PacienteService : IPacienteService
     {
         private readonly IPacienteRepository _pacienteRepository;
-
         public PacienteService(IPacienteRepository pacienteRepository)
         {
-            _pacienteRepository = pacienteRepository;            
+            _pacienteRepository = pacienteRepository;
         }
 
-        public IEnumerable<Paciente> GetAllPacientes()
+        public async Task<IEnumerable<PacienteDto>> GetAllPacientes()
         {
-            var result = _pacienteRepository.GetAll();
+            var result = await _pacienteRepository.GetAll();
             return result;
         }
 
-        public Paciente? GetPacienteById(int idPaciente)
+        public async Task<PacienteDto?> GetPacienteById(int idPaciente)
         {
-            var result = _pacienteRepository.GetPacienteById(idPaciente);
+            var result = await _pacienteRepository.GetPacienteById(idPaciente);
             return result;
         }
 
-        public async Task<Paciente> AddPaciente(Paciente paciente)
+        public async Task<PacienteDto> AddPaciente(PacienteDto paciente)
         {
             paciente.Senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(paciente.Senha));
             return await _pacienteRepository.AddPaciente(paciente);
@@ -37,15 +37,15 @@ namespace Application.Services
             return await _pacienteRepository.DeletePaciente(idPaciente);
         }
 
-        public Paciente GetPacienteByMail(string mail)
+        public async Task<PacienteDto> GetPacienteByMail(string mail)
         {
-            var paciente = _pacienteRepository.GetPacienteByMail(mail);
+            var paciente = await _pacienteRepository.GetPacienteByMail(mail);
             return paciente;
         }
 
-        public IEnumerable<Agenda> GetConsultasPaciente(int idPaciente)
+        public async Task<IEnumerable<AgendaDto>> GetConsultasPaciente(int idPaciente)
         {
-            return _pacienteRepository.GetConsultasPaciente(idPaciente);
+            return await _pacienteRepository.GetConsultasPaciente(idPaciente);
         }
     }
 }

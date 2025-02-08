@@ -1,8 +1,7 @@
 ﻿using Application.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Domain.Enum;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models.Requests;
-using Domain.Enum;
 
 namespace WebAPI.Controllers
 {

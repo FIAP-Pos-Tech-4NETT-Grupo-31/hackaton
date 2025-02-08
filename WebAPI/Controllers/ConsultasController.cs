@@ -1,8 +1,6 @@
 ﻿using Application.Interfaces;
-using Application.Services;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebAPI.Models.Requests;

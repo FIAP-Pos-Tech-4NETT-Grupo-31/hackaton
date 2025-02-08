@@ -11,6 +11,6 @@ namespace Domain.Interfaces
         Task<int> AlterMedico(int id, MedicoDto medico);
         Task<int> DeleteMedicoById(int id);
         Task<int> UpdateMedicoSchedule(int medicoId, string novoHorarioMedico);
-        IEnumerable<Agenda> GetPendingConsultas(int idMedico);
+        Task<IEnumerable<AgendaDto>> GetPendingConsultasAsync(int idMedico);
     }
 }

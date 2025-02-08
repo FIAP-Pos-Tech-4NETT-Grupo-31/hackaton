@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models.Requests;
 using System.Security.Claims;
+using Domain.Dtos;
 
 namespace WebAPI.Controllers
 {
@@ -18,25 +19,25 @@ namespace WebAPI.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IEnumerable<Paciente> GetAll()
+        public async Task<IEnumerable<PacienteDto>> GetAll()
         {
-            var pacientes = _pacienteService.GetAllPacientes();
+            var pacientes = await _pacienteService.GetAllPacientes();
             return pacientes;
         }
 
         [Authorize]
         [HttpGet("{pacienteId}")]
-        public Paciente? GetPacienteById(int pacienteId)
+        public async Task<PacienteDto?> GetPacienteById(int pacienteId)
         {
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            var paciente = _pacienteService.GetPacienteById(pacienteId);
+            var paciente = await _pacienteService.GetPacienteById(pacienteId);
             return paciente;
         }
                 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PacienteRequest pacienteRequest)
         {
-            var pacienteDTO = new Paciente()
+            var pacienteDTO = new PacienteDto()
             {
                 Email = pacienteRequest.Email,
                 Senha = pacienteRequest.Senha,
@@ -53,16 +54,15 @@ namespace WebAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Put([FromBody] int pacienteId)
         {            
-            var resultado = await _pacienteService.DeletePaciente(pacienteId);
-            return Ok();
+            return Ok(await _pacienteService.DeletePaciente(pacienteId));
         }
 
         [Authorize]
         [HttpGet]
         [Route("{pacienteId}/Consultas")]
-        public IEnumerable<Agenda> GetPacienteConsultas([FromRoute] int pacienteId)
+        public async Task<IEnumerable<AgendaDto>> GetPacienteConsultas([FromRoute] int pacienteId)
         {
-            return _pacienteService.GetConsultasPaciente(pacienteId);
+            return await _pacienteService.GetConsultasPaciente(pacienteId);
         }
     }
 }

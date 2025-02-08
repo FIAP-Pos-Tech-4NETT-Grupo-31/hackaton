@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces;
 using Domain.Dtos;
-using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -77,9 +76,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         [Route("{medicoId}/Consultas")]
         [Authorize]
-        public async Task<IEnumerable<Agenda>> GetPendingConsultas([FromRoute] int medicoId)
+        public async Task<IEnumerable<AgendaDto>> GetPendingConsultas([FromRoute] int medicoId)
         {
-            var consultas = _medicoService.GetPendingConsultas(medicoId);
+            var consultas = await _medicoService.GetPendingConsultas(medicoId);
             return consultas;
         }
     }

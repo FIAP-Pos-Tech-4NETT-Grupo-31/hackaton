@@ -44,7 +44,10 @@ namespace hackaton.Infrastructure.Repositories
                 medico.Especialidade,
                 medico.Crm,
                 medico.Telefone,
-                medico.Email
+                medico.Email,
+                medico.DataCriacao,
+                medico.Horarios,
+                medico.Senha
             });
         }
 
@@ -68,22 +71,15 @@ namespace hackaton.Infrastructure.Repositories
 
         public async Task<int> UpdateMedicoSchedule(int medicoId, string novoHorarioMedico)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = @"UPDATE Medico set Horarios = @Horarios WHERE Id = @Id";
-                var result = await connection.ExecuteAsync(query, new { Horarios = novoHorarioMedico, Id = medicoId});
-                return result;
-            }
+            var x = await _dbConnection.ExecuteAsync(MedicoQuery.UpdateMedicoSchedule, new { Horarios = novoHorarioMedico, Id = medicoId });
+            return x;
         }
 
-        public IEnumerable<Agenda> GetPendingConsultas(int idMedico)
+        public async Task<IEnumerable<AgendaDto>> GetPendingConsultasAsync(int idMedico)
         {
-            using (IDbConnection connection = _dbContext.CreateConnection())
-            {
-                string query = @"Select Id, IdMedico, IdPaciente, DataConsulta, Status FROM Agenda WHERE IdMedico = @IdMedico and Status = 'Solicitado'";
-                var result = connection.Query<Agenda>(query, new { IdMedico = idMedico });
-                return result;
-            }
+            var agenda = await _dbConnection.QueryAsync<Agenda>(MedicoQuery.GetPendingConsultas, new { IdMedico = idMedico });
+            var map = _map.Map<IEnumerable<AgendaDto>>(agenda);
+            return map;
         }
     }
 }
