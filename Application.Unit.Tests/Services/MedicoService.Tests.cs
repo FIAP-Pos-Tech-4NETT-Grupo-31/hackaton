@@ -49,7 +49,10 @@ namespace Application.Unit.Tests.Services
                 Crm = _mockListaDeMedicos.First().Crm,
                 Telefone = _mockListaDeMedicos.First().Telefone,
                 Email = _mockListaDeMedicos.First().Email,
-                DataCriacao = _mockListaDeMedicos.First().DataCriacao
+                DataCriacao = _mockListaDeMedicos.First().DataCriacao,
+                Id = _mockListaDeMedicos.First().Id,
+                Horarios = _mockListaDeMedicos.First().Horarios,
+                Senha = _mockListaDeMedicos.First().Senha
             };
         }
 
