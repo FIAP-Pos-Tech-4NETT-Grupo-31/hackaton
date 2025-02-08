@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Services;
+using Domain.Dtos;
 using Domain.Entities;
 using Domain.Interfaces;
 using Moq;
@@ -11,9 +12,9 @@ namespace Application.Unit.Tests.Services
         private IPacienteService pacienteService;
         private Mock<IPacienteRepository> _mockPacienteRepository;
 
-        private readonly List<Paciente> _mockListaDePacientes = new()
+        private readonly List<PacienteDto> _mockListaDePacientes = new()
         {
-            new Paciente { 
+            new PacienteDto { 
                 Id = 1, 
                 Nome = "John Doe", 
                 DataNascimento = new DateTime(1990, 1, 1), 
@@ -21,7 +22,7 @@ namespace Application.Unit.Tests.Services
                 Telefone = "1234567890", 
                 CPF = "12345678901", Senha = "password123" 
             },
-            new Paciente { 
+            new PacienteDto { 
                 Id = 2, 
                 Nome = "Jane Doe", 
                 DataNascimento = new DateTime(1992, 2, 2), 
@@ -45,21 +46,21 @@ namespace Application.Unit.Tests.Services
             // Arrange
             _mockPacienteRepository
                 .Setup(x => x.GetAll())
-                .Returns(_mockListaDePacientes);
+                .ReturnsAsync(_mockListaDePacientes);
 
             // Act
             var result = pacienteService.GetAllPacientes();
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.That(result.Count(), Is.EqualTo(2));
+            Assert.That(result.Result.Count(), Is.EqualTo(2));
         }
 
         [Test]
         public async Task Deve_Adicionar_Paciente()
         {
             // Arrange
-            var novoPaciente = new Paciente
+            var novoPaciente = new PacienteDto
             {
                 Nome = "João da silva",
                 DataNascimento = new DateTime(1990, 1, 1),

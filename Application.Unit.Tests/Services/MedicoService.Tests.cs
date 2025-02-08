@@ -21,7 +21,10 @@ namespace Application.Unit.Tests.Services
                 Crm = "123456",
                 Telefone = "1234567890",
                 Email = "john.doe@email.com",
-                DataCriacao = new DateTime(2021, 1, 1)
+                DataCriacao = new DateTime(2021, 1, 1),
+                Horarios = "Dur:30;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;",
+                Id = 1,
+                Senha = "ncienciekcd"
             },
             new(){
                 Nome = "Jane Doe",
@@ -29,7 +32,10 @@ namespace Application.Unit.Tests.Services
                 Crm = "654321",
                 Telefone = "0987654321",
                 Email = "jane.doe@email.com",
-                DataCriacao = new DateTime(2021, 2, 2)
+                DataCriacao = new DateTime(2021, 2, 2),
+                Horarios = "Dur:30;Seg_09:00-18:00;Ter_09:00-18:00;Qua_09:00-18:00;Qui_09:00-18:00;Sex_09:00-18:00;",
+                Id = 1,
+                Senha = "ncienciekcd"
             }
        };
 
