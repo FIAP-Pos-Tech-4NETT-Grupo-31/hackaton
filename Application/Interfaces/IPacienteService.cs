@@ -6,7 +6,7 @@ namespace Application.Interfaces
     public interface IPacienteService
     {
         /// <summary>
-        /// Busca todos os pacientes cadastrados
+        /// Busca todos os pacientes cadastrados.
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<PacienteDto>> GetAllPacientes();
