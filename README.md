@@ -115,4 +115,6 @@ Após executar o comando `docker-compose up -d`, para subir o banco de dados, ba
 ### Execução em Modo Release
 No modo release, além de subir o banco de dados, o docker-compose-release.yml está sendo usado para recuperar e executar a imagem do projeto WebAPI que foi publicada no GitHub Packages.
 
+![image](https://github.com/user-attachments/assets/21b2d139-5931-495a-a425-a968ca9e98d6)
+
 ```$ docker-compose -p hackaton-release -f .\docker-compose-release.yml up -d ```
